@@ -82,7 +82,7 @@
             // lblfiTotal
             // 
             this.lblfiTotal.AutoSize = true;
-            this.lblfiTotal.Location = new System.Drawing.Point(288, 231);
+            this.lblfiTotal.Location = new System.Drawing.Point(143, 231);
             this.lblfiTotal.Name = "lblfiTotal";
             this.lblfiTotal.Size = new System.Drawing.Size(40, 13);
             this.lblfiTotal.TabIndex = 4;
@@ -91,7 +91,7 @@
             // lblxf
             // 
             this.lblxf.AutoSize = true;
-            this.lblxf.Location = new System.Drawing.Point(435, 231);
+            this.lblxf.Location = new System.Drawing.Point(331, 231);
             this.lblxf.Name = "lblxf";
             this.lblxf.Size = new System.Drawing.Size(40, 13);
             this.lblxf.TabIndex = 5;
@@ -100,7 +100,7 @@
             // lblx2f
             // 
             this.lblx2f.AutoSize = true;
-            this.lblx2f.Location = new System.Drawing.Point(617, 231);
+            this.lblx2f.Location = new System.Drawing.Point(582, 231);
             this.lblx2f.Name = "lblx2f";
             this.lblx2f.Size = new System.Drawing.Size(40, 13);
             this.lblx2f.TabIndex = 6;
@@ -109,7 +109,7 @@
             // lblx_m2f
             // 
             this.lblx_m2f.AutoSize = true;
-            this.lblx_m2f.Location = new System.Drawing.Point(752, 231);
+            this.lblx_m2f.Location = new System.Drawing.Point(773, 231);
             this.lblx_m2f.Name = "lblx_m2f";
             this.lblx_m2f.Size = new System.Drawing.Size(40, 13);
             this.lblx_m2f.TabIndex = 7;
@@ -117,12 +117,13 @@
             // 
             // btnLimpiar
             // 
-            this.btnLimpiar.Location = new System.Drawing.Point(833, 247);
+            this.btnLimpiar.Location = new System.Drawing.Point(833, 246);
             this.btnLimpiar.Name = "btnLimpiar";
             this.btnLimpiar.Size = new System.Drawing.Size(75, 23);
             this.btnLimpiar.TabIndex = 8;
             this.btnLimpiar.Text = "Limpiar";
             this.btnLimpiar.UseVisualStyleBackColor = true;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
             // 
             // lblMedia
             // 

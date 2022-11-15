@@ -14,16 +14,7 @@ namespace TrabajoEstadistica
     {
         public Form1()
         {
-            InitializeComponent();
-            //dgvEstadistica.ColumnCount = 8;
-            //dgvEstadistica.Columns[0].HeaderText = "xi";
-            //dgvEstadistica.Columns[1].HeaderText = "fi";
-            //dgvEstadistica.Columns[2].HeaderText = "Fi";
-            //dgvEstadistica.Columns[3].HeaderText = "hi";
-            //dgvEstadistica.Columns[4].HeaderText = "x.f";
-            //dgvEstadistica.Columns[5].HeaderText = "(x-X̄)";
-            //dgvEstadistica.Columns[6].HeaderText = "(x-X̄)²";
-            //dgvEstadistica.Columns[7].HeaderText = "(x-X̄)².f";            
+            InitializeComponent();         
             llenadoDGV();
         }
         DataTable DT = new DataTable();
@@ -32,7 +23,7 @@ namespace TrabajoEstadistica
             DataTable dt = new DataTable();
             dt.Columns.Add("xi");
             dt.Columns.Add("fi");
-            dt.Columns.Add("Fi");
+            dt.Columns.Add("FAcumulada");
             dt.Columns.Add("hi");
             dt.Columns.Add("x.f");
             dt.Columns.Add("(x-X̄)");
@@ -44,65 +35,59 @@ namespace TrabajoEstadistica
         
         decimal numeroIngresado;
         int frecuencia;
-        public List<int> FiLista = new List<int>();
-        public List<decimal> xfLista = new List<decimal>();
         public decimal mediaActual;
         int Fi = 0;
+        decimal xfAcumulada = 0;
+
+        double varianza;
+        double desviacionMedia;
+        double desviacionEstandar;
+        double coeficiente;
         public void LlenarDGV()
         {
-            //DataTable dt = new DataTable();
             if (dgvEstadistica.Rows.Count == 0) 
             {         
-                //dt.Columns.Add("xi");
-                //dt.Columns.Add("fi");
-                //dt.Columns.Add("Fi");
-                //dt.Columns.Add("hi");
-                //dt.Columns.Add("x.f");
-                //dt.Columns.Add("(x-X̄)");
-                //dt.Columns.Add("(x-X̄)²");
-                //dt.Columns.Add("(x-X̄)².f");
-                //dgvEstadistica.DataSource = dt;
                 decimal sumaxf = 0;
                 
                 decimal xf = numeroIngresado * frecuencia;           
                 lblMedia.Visible = true;
-                xfLista.Add(xf);
-                //foreach (var item in FiLista)
-                //{
-                //    Fi = Fi + item;
-                //}
                 Fi = frecuencia;
-                foreach (var item in xfLista)
-                {
-                    sumaxf = sumaxf + item;
-                }
+                xfAcumulada = xf;
                 decimal media = sumaxf/Fi;
-                lblMedia.Text = media.ToString();
+                //lblMedia.Text = media.ToString();
                 DT.Rows.Add(numeroIngresado, frecuencia, Fi,
                 Convert.ToDouble(Convert.ToDouble(frecuencia) / Convert.ToDouble(Fi)),
                 xf,(numeroIngresado - media),
                 (Math.Pow(Convert.ToDouble(numeroIngresado - media),2)),
                 (Math.Pow(Convert.ToDouble(numeroIngresado - media), 2))*frecuencia);
-
+                
                 dgvEstadistica.DataSource = DT;
                 mediaActual = media;
+
+                varianza = ((Math.Pow(Convert.ToDouble(numeroIngresado - media), 2)) * frecuencia) / Fi ;
+                desviacionEstandar = Math.Sqrt(varianza);
+                coeficiente = desviacionEstandar/Convert.ToDouble(media);
+                desviacionMedia = Convert.ToDouble((numeroIngresado - media) / Fi);
+
+                lblMedia.Visible = true;
+                lblDesviacionEstandar.Visible = true;
+                lblDesviacionTipica.Visible = true;
+                lblVarianza.Visible = true;
+                lblCoeficiente.Visible = true;
+
+                lblMedia.Text = $"La media es de {media}";
+                lblDesviacionEstandar.Text = $"La desviacion estándar es de {desviacionEstandar}";
+                lblDesviacionTipica.Text = $"La desviacion media es de {desviacionMedia}";
+                lblVarianza.Text = $"La varianza es de {varianza}";
+                lblCoeficiente.Text = $"El coeficiente de variación es de {coeficiente}";
             }
             else
             {
-                decimal sumaxf = 0;
                 decimal xf = numeroIngresado * frecuencia;
                 lblMedia.Visible = true;
-                xfLista.Add(xf);
-                //foreach (var item in FiLista)
-                //{
-                //    Fi = Fi + item;
-                //}
                 Fi = Fi + frecuencia;
-                foreach (var item in xfLista)
-                {
-                    sumaxf = sumaxf + item;
-                }
-                decimal media = sumaxf / Fi;
+                xfAcumulada = xfAcumulada + xf;
+                decimal media = xfAcumulada / Fi;
                 lblMedia.Text = media.ToString();
 
                 DT.Rows.Add(numeroIngresado, frecuencia, Fi,
@@ -114,35 +99,35 @@ namespace TrabajoEstadistica
                 dgvEstadistica.DataSource = DT;
                 mediaActual = media;
 
+
+                varianza = ((Math.Pow(Convert.ToDouble(numeroIngresado - media), 2)) * frecuencia) / Fi;
+                desviacionEstandar = Math.Sqrt(varianza);
+                coeficiente = desviacionEstandar / Convert.ToDouble(media);
+                desviacionMedia = Convert.ToDouble((numeroIngresado - media) / Fi);
+
+                lblMedia.Text = $"La media es de {media}";
+                lblDesviacionEstandar.Text = $"La desviacion estándar es de {desviacionEstandar}";
+                lblDesviacionTipica.Text = $"La desviacion media es de {desviacionMedia}";
+                lblVarianza.Text = $"La varianza es de {varianza}";
+                lblCoeficiente.Text = $"El coeficiente de variación es de {coeficiente}";
+
+
                 foreach (DataRow row in DT.Rows)
                 {
-                    //DataGridViewRow currentRow = dgvEstadistica.CurrentRow;
-                    //int filaActual = dgvEstadistica.CurrentRow.Index;
-                    //decimal xiActual = Convert.ToDecimal(dgvEstadistica.Rows[filaActual].Cells[0].Value);
-                    //decimal fiActual = Convert.ToDecimal(dgvEstadistica.Rows[filaActual].Cells[1].Value);
-                    //decimal FiActual = Convert.ToDecimal(dgvEstadistica.Rows[filaActual].Cells[2].Value);
-                    //decimal xfActual = Convert.ToDecimal(dgvEstadistica.Rows[filaActual].Cells[4].Value);
-
-
                     decimal xiActual = Convert.ToDecimal(row["xi"]);
                     decimal fiActual = Convert.ToDecimal(row["fi"]);
-                    decimal FiActual = Convert.ToDecimal(row["Fi"]);
+                    decimal FiActual = Convert.ToDecimal(row["FAcumulada"]);
                     decimal xfActual = Convert.ToDecimal(row["x.f"]);
 
                     row["xi"] = xiActual;
                     row["fi"] = fiActual;
-                    row["Fi"] = FiActual;
+                    row["FAcumulada"] = FiActual;
                     row["hi"] = (Convert.ToDouble(fiActual) / Convert.ToDouble(Fi));
                     row["x.f"] = xfActual;
                     row["(x-X̄)"] = (xiActual - mediaActual);
                     row["(x-X̄)²"] = (Math.Pow(Convert.ToDouble(xiActual - mediaActual), 2));
                     row["(x-X̄)².f"] = (Convert.ToDecimal(Math.Pow(Convert.ToDouble(xiActual - mediaActual), 2)) * fiActual);
-                    dgvEstadistica.DataSource = DT;
-                    //ds = dgvEstadistica.Rows.Add(xiActual, fiActual, FiActual,
-                    //(Convert.ToDouble(fiActual) / Convert.ToDouble(FiActual)), xfActual,
-                    //(xiActual - mediaActual),
-                    //(Math.Pow(Convert.ToDouble(xiActual - mediaActual), 2),
-                    //(Convert.ToDecimal(Math.Pow(Convert.ToDouble(xiActual - mediaActual), 2)) * fiActual)));                    
+                    dgvEstadistica.DataSource = DT;               
                 }
             }
 
@@ -152,9 +137,21 @@ namespace TrabajoEstadistica
         {
             numeroIngresado = nmNroIngresado.Value;
             frecuencia = Convert.ToInt32(nmFrecuencia.Value);
-            FiLista.Add(frecuencia);
             
             LlenarDGV();
+            nmNroIngresado.Value = default;
+            nmFrecuencia.Value = default;
+        }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            DT.Rows.Clear();
+            dgvEstadistica.DataSource = DT;
+            lblMedia.Visible = false;
+            lblDesviacionEstandar.Visible = false;
+            lblDesviacionTipica.Visible = false;
+            lblVarianza.Visible = false;
+            lblCoeficiente.Visible = false;
         }
     }
 }
